@@ -7,5 +7,5 @@ See examples folder
 - [x] Artificial bee colony algorithm
 - [ ] Genetic algorithm (already written but need restructuring and refactoring)
 - [ ] Simplex-method alghoritm
-- [ ] Artificial immune network algorithm
+- [ ] Artificial immune network algorithm (refactor and mode fix)
 - [ ] Bacterial foraging alorithm
