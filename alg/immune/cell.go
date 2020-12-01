@@ -35,11 +35,6 @@ func (c *cell) clone() cell {
 }
 
 func (c *cell) mutate(intensity float64, s mat.Space, f fun.TargetFunc) {
-	// rate := math.Pow(math.E, -intensity*c.affinity)
-
-	// dx := utils.RandFloat(s.Xmin, s.Xmax) * intensity
-	// dy := utils.RandFloat(s.Ymin, s.Ymax) * intensity
-
 	dx := utils.RandFloat(-0.5, 0.5) * intensity
 	dy := utils.RandFloat(-0.5, 0.5) * intensity
 

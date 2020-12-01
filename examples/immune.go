@@ -15,9 +15,9 @@ import (
 // TestImmune ...
 func TestImmune() {
 	options := &immune.Options{
-		TargetFunc:    fun.NewRozenbrockFunc(),
+		TargetFunc:    fun.NewReverseSphereFunc(),
 		Space:         mat.NewSpace(-10, 10, -10, 10),
-		Mode:          fun.Minimum,
+		Mode:          fun.Maximum,
 		IterationsLim: 10000,
 		Population:    200,
 		Best:          10,

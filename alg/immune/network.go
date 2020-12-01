@@ -36,10 +36,16 @@ func (n *network) generateAntibodies(f fun.TargetFunc, s mat.Space) {
 	}
 }
 
-func (n *network) createClones(f fun.TargetFunc, s mat.Space) []cell {
-	sort.SliceStable(n.antibodies, func(i, j int) bool {
-		return n.antibodies[i].affinity < n.antibodies[j].affinity
-	})
+func (n *network) createClones(f fun.TargetFunc, s mat.Space, mode string) []cell {
+	if mode == fun.Minimum {
+		sort.SliceStable(n.antibodies, func(i, j int) bool {
+			return n.antibodies[i].affinity < n.antibodies[j].affinity
+		})
+	} else {
+		sort.SliceStable(n.antibodies, func(i, j int) bool {
+			return n.antibodies[i].affinity > n.antibodies[j].affinity
+		})
+	}
 
 	clones := make([]cell, 0)
 	for i := 0; i < n.bestQuantity; i++ {
@@ -50,21 +56,33 @@ func (n *network) createClones(f fun.TargetFunc, s mat.Space) []cell {
 		}
 	}
 
-	sort.SliceStable(clones, func(i, j int) bool {
-		return clones[i].affinity < clones[j].affinity
-	})
+	if mode == fun.Minimum {
+		sort.SliceStable(clones, func(i, j int) bool {
+			return clones[i].affinity < clones[j].affinity
+		})
+	} else {
+		sort.SliceStable(clones, func(i, j int) bool {
+			return clones[i].affinity > clones[j].affinity
+		})
+	}
 
 	return clones
 }
 
-func (n *network) unite(clones []cell, f fun.TargetFunc, s mat.Space) {
+func (n *network) unite(clones []cell, f fun.TargetFunc, s mat.Space, mode string) {
 	for _, c := range clones {
 		n.antibodies = append(n.antibodies, c)
 	}
 
-	sort.SliceStable(n.antibodies, func(i, j int) bool {
-		return n.antibodies[i].affinity < n.antibodies[j].affinity
-	})
+	if mode == fun.Minimum {
+		sort.SliceStable(n.antibodies, func(i, j int) bool {
+			return n.antibodies[i].affinity < n.antibodies[j].affinity
+		})
+	} else {
+		sort.SliceStable(n.antibodies, func(i, j int) bool {
+			return n.antibodies[i].affinity > n.antibodies[j].affinity
+		})
+	}
 
 	n.antibodies = n.antibodies[:n.population-2]
 	n.antibodies = append(n.antibodies, generateCell(f, s))

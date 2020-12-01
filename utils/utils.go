@@ -12,6 +12,12 @@ func RandFloat(min, max float64) float64 {
 	return rnd
 }
 
+// RandInt ...
+func RandInt(min, max int) int {
+	rnd := rand.Int()*(max-min) + min
+	return rnd
+}
+
 // Contains ...
 func Contains(item string, slice []string) bool {
 	for _, str := range slice {

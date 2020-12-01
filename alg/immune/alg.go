@@ -53,8 +53,8 @@ func (a *ArtificialImmuneNetworkAlg) Start() (mat.Extremum, string) {
 	a.Network.generateAntibodies(*a.TFunc, *a.Space)
 
 	for {
-		clones := a.Network.createClones(*a.TFunc, *a.Space)
-		a.Network.unite(clones, *a.TFunc, *a.Space)
+		clones := a.Network.createClones(*a.TFunc, *a.Space, a.Mode)
+		a.Network.unite(clones, *a.TFunc, *a.Space, a.Mode)
 
 		a.Iteration++
 
@@ -62,8 +62,6 @@ func (a *ArtificialImmuneNetworkAlg) Start() (mat.Extremum, string) {
 			break
 		}
 	}
-
-	// fmt.Println(a.Network.antibodies)
 
 	return mat.NewExtremum(a.Network.antibodies[0].coords, a.Network.antibodies[0].affinity), a.String()
 }

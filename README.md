@@ -5,7 +5,7 @@ See examples folder
 - [x] Gradient descent algorithm
 - [x] Particle swarm algorithm
 - [x] Artificial bee colony algorithm
-- [ ] Genetic algorithm (already written but need restructuring and refactoring)
+- [x] Genetic algorithm
 - [ ] Simplex-method alghoritm
-- [ ] Artificial immune network algorithm (refactor and mode fix)
-- [ ] Bacterial foraging alorithm
+- [x] Artificial immune network algorithm
+- [x] Bacterial foraging alorithm
