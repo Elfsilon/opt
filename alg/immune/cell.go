@@ -1,7 +1,7 @@
 package immune
 
 import (
-	// "math"
+	// "math/rand"
 
 	"github.com/Elfsilon/opt/utils"
 	"github.com/Elfsilon/opt/utils/fun"
@@ -35,8 +35,8 @@ func (c *cell) clone() cell {
 }
 
 func (c *cell) mutate(intensity float64, s mat.Space, f fun.TargetFunc) {
-	dx := utils.RandFloat(-0.5, 0.5) * intensity
-	dy := utils.RandFloat(-0.5, 0.5) * intensity
+	dx := float64(utils.RandInt(-1, 1)) * intensity
+	dy := float64(utils.RandInt(-1, 1)) * intensity
 
 	c.coords.Add(mat.NewVec2(dx, dy))
 	c.affinity = f.Eval(c.coords)

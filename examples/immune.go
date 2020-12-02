@@ -15,14 +15,16 @@ import (
 // TestImmune ...
 func TestImmune() {
 	options := &immune.Options{
-		TargetFunc:    fun.NewReverseSphereFunc(),
-		Space:         mat.NewSpace(-10, 10, -10, 10),
-		Mode:          fun.Maximum,
-		IterationsLim: 10000,
-		Population:    200,
-		Best:          10,
-		Clones:        20,
-		MutationRate:  0.0025,
+		TargetFunc:         fun.NewRozenbrockFunc(),
+		Space:              mat.NewSpace(-10, 10, -10, 10),
+		Mode:               fun.Minimum,
+		IterationsLim:      1000,
+		Population:         100,
+		Best:               20,
+		Clones:             2,
+		MutationRate:       0.015,
+		ScatterProbability: 0.5,
+		ScatterCount:       10,
 	}
 	immuneAlg, err := immune.NewArtificialImmuneNetworkAlg(options)
 	if err != nil {

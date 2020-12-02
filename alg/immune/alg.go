@@ -11,16 +11,18 @@ import (
 
 // ArtificialImmuneNetworkAlg ...
 type ArtificialImmuneNetworkAlg struct {
-	TFunc         *fun.TargetFunc
-	Space         *mat.Space
-	Network       *network
-	Mode          string
-	IterationsLim int
-	Iteration     int
-	Population    int
-	Best          int
-	Clones        int
-	MutationRate  float64
+	TFunc              *fun.TargetFunc
+	Space              *mat.Space
+	Network            *network
+	Mode               string
+	IterationsLim      int
+	Iteration          int
+	Population         int
+	Best               int
+	Clones             int
+	MutationRate       float64
+	ScatterProbability float64
+	ScatterCount       int
 }
 
 // NewArtificialImmuneNetworkAlg ...
@@ -33,16 +35,18 @@ func NewArtificialImmuneNetworkAlg(opt *Options) (*ArtificialImmuneNetworkAlg, e
 	network := newNetwork(opt.Population, opt.Best, opt.Clones, opt.MutationRate)
 
 	return &ArtificialImmuneNetworkAlg{
-		Network:       &network,
-		TFunc:         &opt.TargetFunc,
-		Space:         &opt.Space,
-		Mode:          opt.Mode,
-		IterationsLim: opt.IterationsLim,
-		Iteration:     0,
-		Population:    opt.Population,
-		Best:          opt.Best,
-		Clones:        opt.Clones,
-		MutationRate:  opt.MutationRate,
+		Network:            &network,
+		TFunc:              &opt.TargetFunc,
+		Space:              &opt.Space,
+		Mode:               opt.Mode,
+		IterationsLim:      opt.IterationsLim,
+		Iteration:          0,
+		Population:         opt.Population,
+		Best:               opt.Best,
+		Clones:             opt.Clones,
+		MutationRate:       opt.MutationRate,
+		ScatterProbability: opt.ScatterProbability,
+		ScatterCount:       opt.ScatterCount,
 	}, nil
 }
 
@@ -55,6 +59,7 @@ func (a *ArtificialImmuneNetworkAlg) Start() (mat.Extremum, string) {
 	for {
 		clones := a.Network.createClones(*a.TFunc, *a.Space, a.Mode)
 		a.Network.unite(clones, *a.TFunc, *a.Space, a.Mode)
+		a.Network.scatter(a.ScatterProbability, a.ScatterCount, *a.TFunc, *a.Space)
 
 		a.Iteration++
 
@@ -63,7 +68,7 @@ func (a *ArtificialImmuneNetworkAlg) Start() (mat.Extremum, string) {
 		}
 	}
 
-	return mat.NewExtremum(a.Network.antibodies[0].coords, a.Network.antibodies[0].affinity), a.String()
+	return a.Network.selectBestSolution(a.Mode), a.String()
 }
 
 func (a *ArtificialImmuneNetworkAlg) String() string {

@@ -1,8 +1,11 @@
 package immune
 
 import (
+	"math"
+	"math/rand"
 	"sort"
 
+	"github.com/Elfsilon/opt/utils"
 	"github.com/Elfsilon/opt/utils/fun"
 	"github.com/Elfsilon/opt/utils/mat"
 )
@@ -56,16 +59,6 @@ func (n *network) createClones(f fun.TargetFunc, s mat.Space, mode string) []cel
 		}
 	}
 
-	if mode == fun.Minimum {
-		sort.SliceStable(clones, func(i, j int) bool {
-			return clones[i].affinity < clones[j].affinity
-		})
-	} else {
-		sort.SliceStable(clones, func(i, j int) bool {
-			return clones[i].affinity > clones[j].affinity
-		})
-	}
-
 	return clones
 }
 
@@ -84,7 +77,39 @@ func (n *network) unite(clones []cell, f fun.TargetFunc, s mat.Space, mode strin
 		})
 	}
 
-	n.antibodies = n.antibodies[:n.population-2]
-	n.antibodies = append(n.antibodies, generateCell(f, s))
-	n.antibodies = append(n.antibodies, generateCell(f, s))
+	n.antibodies = n.antibodies[:n.population]
+}
+
+func (n *network) scatter(probability float64, count int, f fun.TargetFunc, s mat.Space) {
+	for i := 0; i < count; i++ {
+		r := utils.RandFloat(0, 1)
+		if r < probability {
+			index := rand.Intn(len(n.antibodies))
+			n.antibodies[index] = generateCell(f, s)
+		}
+	}
+}
+
+func (n *network) selectBestSolution(mode string) mat.Extremum {
+	var bestSol mat.Extremum
+
+	if mode == fun.Maximum {
+		bestSol.Value = -math.MaxFloat32
+	} else {
+		bestSol.Value = math.MaxFloat32
+	}
+
+	for _, ab := range n.antibodies {
+		if mode == fun.Maximum {
+			if ab.affinity > bestSol.Value {
+				bestSol = mat.NewExtremum(ab.coords, ab.affinity)
+			}
+		} else {
+			if ab.affinity < bestSol.Value {
+				bestSol = mat.NewExtremum(ab.coords, ab.affinity)
+			}
+		}
+	}
+
+	return bestSol
 }

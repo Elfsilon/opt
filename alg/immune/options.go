@@ -8,14 +8,16 @@ import (
 
 // Options ...
 type Options struct {
-	TargetFunc    fun.TargetFunc
-	Space         mat.Space
-	Mode          string
-	IterationsLim int
-	Population    int
-	Best          int
-	Clones        int
-	MutationRate float64
+	TargetFunc         fun.TargetFunc
+	Space              mat.Space
+	Mode               string
+	IterationsLim      int
+	Population         int
+	Best               int
+	Clones             int
+	MutationRate       float64
+	ScatterProbability float64
+	ScatterCount       int
 }
 
 func (opt *Options) validate() error {
