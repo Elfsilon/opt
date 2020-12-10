@@ -18,6 +18,16 @@ func generateCell(f fun.TargetFunc, s mat.Space) cell {
 	}
 }
 
+func generateCellOnExtremum(f fun.TargetFunc, ext mat.Extremum, distributionRate float64) cell {
+	x := utils.RandFloat(ext.Coord.X-distributionRate, ext.Coord.X+distributionRate)
+	y := utils.RandFloat(ext.Coord.Y-distributionRate, ext.Coord.Y+distributionRate)
+	coords := mat.NewVec2(x, y)
+	return cell{
+		coords:   coords,
+		affinity: f.Eval(coords),
+	}
+}
+
 func newCell(coords mat.Vec2, affinity float64) cell {
 	return cell{
 		coords:   coords,

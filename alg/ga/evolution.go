@@ -34,6 +34,16 @@ func (e *evolution) init(f fun.TargetFunc, s mat.Space) {
 	}
 }
 
+func (e *evolution) initOnExtremum(f fun.TargetFunc, ext mat.Extremum, distributionRate float64) {
+	for i := range e.population {
+		x := utils.RandFloat(ext.Coord.X-distributionRate, ext.Coord.X+distributionRate)
+		y := utils.RandFloat(ext.Coord.Y-distributionRate, ext.Coord.Y+distributionRate)
+
+		e.population[i].position = mat.NewVec2(x, y)
+		e.population[i].value = f.Eval(e.population[i].position)
+	}
+}
+
 func (e *evolution) selection(f fun.TargetFunc, mode string) []genome {
 	if mode == fun.Minimum {
 		sort.SliceStable(e.population, func(i, j int) bool {

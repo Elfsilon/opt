@@ -14,16 +14,19 @@ import (
 
 // TestBact ...
 func TestBact() {
+	entryExt := mat.NewExtremum(mat.NewVec2(0.99, 0.99), 0.0000009)
 	options := &bact.Options{
-		TargetFunc:      fun.NewRozenbrockFunc(),
-		Space:           mat.NewSpace(-10, 10, -10, 10),
-		Mode:            fun.Minimum,
-		Population:      100,
-		HemotaxisLim:    10,
-		IterationLim:    400,
-		DispCount:       30,
-		DispProbability: 0.3,
-		StepSize:        0.015,
+		TargetFunc:             fun.NewRozenbrockFunc(),
+		Space:                  mat.NewSpace(-10, 10, -10, 10),
+		Mode:                   fun.Minimum,
+		Population:             100,
+		HemotaxisLim:           10,
+		IterationLim:           400,
+		DispCount:              30,
+		DispProbability:        0.3,
+		StepSize:               0.0015,
+		EntryExtremum:          &entryExt,
+		EntryDistributionRatio: 0.001,
 	}
 	bactAlg, err := bact.NewBacterialForagingAlg(options)
 	if err != nil {

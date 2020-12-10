@@ -21,6 +21,14 @@ type bacteriaSwarm struct {
 	hemotaxisLim int
 }
 
+func (b *bacteriaSwarm) initOnExtremum(population int, stepsize float64, f fun.TargetFunc, ext mat.Extremum, distributionRatio float64) {
+	for i := 0; i < population; i++ {
+		bact := newBacterium()
+		bact.initOnExtremum(stepsize, f, ext, distributionRatio)
+		b.swarm = append(b.swarm, bact)
+	}
+}
+
 func (b *bacteriaSwarm) init(population int, stepsize float64, f fun.TargetFunc, s mat.Space) {
 	for i := 0; i < population; i++ {
 		bact := newBacterium()

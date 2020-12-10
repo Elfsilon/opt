@@ -38,6 +38,10 @@ func NewArtificialBeeColonyAlg(opt *Options) (*ArtificialBeeColonyAlg, error) {
 	scoutCount := opt.Elite + opt.Perspect
 	hive := newHive(scoutCount, workersCount, opt.Elite, opt.Perspect, opt.EliteBee, opt.PerspectBee, opt.EliteRadius, opt.PerspectRadius)
 
+	if opt.EntryExtremum != nil {
+		hive.exploreExtremum(opt.TargetFunc, *opt.EntryExtremum, opt.EntryDistributionRatio)
+	}
+
 	return &ArtificialBeeColonyAlg{
 		TFunc:         &opt.TargetFunc,
 		Hive:          &hive,

@@ -83,6 +83,18 @@ func (h *hive) explore(f fun.TargetFunc, s mat.Space) {
 	}
 }
 
+func (h *hive) exploreExtremum(f fun.TargetFunc, ext mat.Extremum, distributionRatio float64) {
+	for i := range h.scouts {
+		x := utils.RandFloat(ext.Coord.X-distributionRatio, ext.Coord.X+distributionRatio)
+		y := utils.RandFloat(ext.Coord.Y-distributionRatio, ext.Coord.Y+distributionRatio)
+
+		h.scouts[i].work(mat.NewVec2(x, y), f)
+
+		area := newArea(h.scouts[i].position, h.scouts[i].localExt.Value, -1)
+		h.areas = append(h.areas, area)
+	}
+}
+
 // Reconstructs []areas with new data
 func (h *hive) updateAreas() {
 	var areas []area

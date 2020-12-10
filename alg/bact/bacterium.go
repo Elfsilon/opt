@@ -41,6 +41,25 @@ func (b *bacterium) randPosition(f fun.TargetFunc, s mat.Space) {
 	b.flipDirection()
 }
 
+func (b *bacterium) initOnExtremum(stepsize float64, f fun.TargetFunc, ext mat.Extremum, distributionRate float64) {
+	x := utils.RandFloat(ext.Coord.X-distributionRate, ext.Coord.X+distributionRate)
+	y := utils.RandFloat(ext.Coord.Y-distributionRate, ext.Coord.Y+distributionRate)
+
+	b.position = mat.NewVec2(x, y)
+	b.value = f.Eval(b.position)
+	b.healthState += b.value
+
+	b.stepsize = stepsize
+
+	dx := utils.RandFloat(-1, 1)
+	dy := utils.RandFloat(-1, 1)
+	b.direction = mat.NewVec2(dx, dy)
+
+	dirNorm := mat.ENorm(b.direction)
+
+	b.velocity = b.direction.Mult(b.stepsize / dirNorm)
+}
+
 func (b *bacterium) init(stepsize float64, f fun.TargetFunc, s mat.Space) {
 	x := utils.RandFloat(s.Xmin, s.Xmax)
 	y := utils.RandFloat(s.Ymin, s.Ymax)

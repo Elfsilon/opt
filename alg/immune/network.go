@@ -39,6 +39,13 @@ func (n *network) generateAntibodies(f fun.TargetFunc, s mat.Space) {
 	}
 }
 
+func (n *network) generateAntibodiesOnExtremum(f fun.TargetFunc, ext mat.Extremum, distrRatio float64) {
+	for i := 0; i < n.population; i++ {
+		cell := generateCellOnExtremum(f, ext, distrRatio)
+		n.antibodies = append(n.antibodies, cell)
+	}
+}
+
 func (n *network) createClones(f fun.TargetFunc, s mat.Space, mode string) []cell {
 	if mode == fun.Minimum {
 		sort.SliceStable(n.antibodies, func(i, j int) bool {

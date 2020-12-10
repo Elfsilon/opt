@@ -10,13 +10,15 @@ import (
 
 // Options ...
 type Options struct {
-	Swarmsize     int
-	Space         mat.Space
-	TargetFunc    fun.TargetFunc
-	Mode          string
-	Phi1          float64
-	Phi2          float64
-	IterationsLim int
+	Swarmsize              int
+	Space                  mat.Space
+	TargetFunc             fun.TargetFunc
+	Mode                   string
+	Phi1                   float64
+	Phi2                   float64
+	IterationsLim          int
+	EntryExtremum          *mat.Extremum
+	EntryDistributionRatio float64
 }
 
 func (opt *Options) validate() error {

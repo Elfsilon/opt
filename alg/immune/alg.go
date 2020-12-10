@@ -34,6 +34,12 @@ func NewArtificialImmuneNetworkAlg(opt *Options) (*ArtificialImmuneNetworkAlg, e
 
 	network := newNetwork(opt.Population, opt.Best, opt.Clones, opt.MutationRate)
 
+	if opt.EntryExtremum != nil {
+		network.generateAntibodiesOnExtremum(opt.TargetFunc, *opt.EntryExtremum, opt.EntryDistributionRatio)
+	} else {
+		network.generateAntibodies(opt.TargetFunc, opt.Space)
+	}
+
 	return &ArtificialImmuneNetworkAlg{
 		Network:            &network,
 		TFunc:              &opt.TargetFunc,
@@ -53,8 +59,6 @@ func NewArtificialImmuneNetworkAlg(opt *Options) (*ArtificialImmuneNetworkAlg, e
 // Start ...
 func (a *ArtificialImmuneNetworkAlg) Start() (mat.Extremum, string) {
 	rand.Seed(time.Now().UnixNano())
-
-	a.Network.generateAntibodies(*a.TFunc, *a.Space)
 
 	for {
 		clones := a.Network.createClones(*a.TFunc, *a.Space, a.Mode)

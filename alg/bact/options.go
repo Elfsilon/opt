@@ -8,15 +8,17 @@ import (
 
 // Options ...
 type Options struct {
-	TargetFunc      fun.TargetFunc
-	Space           mat.Space
-	Mode            string
-	IterationLim    int
-	Population      int
-	HemotaxisLim    int
-	DispCount       int
-	DispProbability float64
-	StepSize        float64
+	TargetFunc             fun.TargetFunc
+	Space                  mat.Space
+	Mode                   string
+	IterationLim           int
+	Population             int
+	HemotaxisLim           int
+	DispCount              int
+	DispProbability        float64
+	StepSize               float64
+	EntryExtremum          *mat.Extremum
+	EntryDistributionRatio float64
 }
 
 func (opt *Options) validate() error {

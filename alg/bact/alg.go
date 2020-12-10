@@ -33,6 +33,12 @@ func NewBacterialForagingAlg(opt *Options) (*BacterialForagingAlg, error) {
 
 	swarm := newBacteriaSwarm(opt.HemotaxisLim)
 
+	if opt.EntryExtremum != nil {
+		swarm.initOnExtremum(opt.Population, opt.StepSize, opt.TargetFunc, *opt.EntryExtremum, opt.EntryDistributionRatio)
+	} else {
+		swarm.init(opt.Population, opt.StepSize, opt.TargetFunc, opt.Space)
+	}
+
 	return &BacterialForagingAlg{
 		TFunc:           &opt.TargetFunc,
 		Space:           &opt.Space,
@@ -51,8 +57,6 @@ func NewBacterialForagingAlg(opt *Options) (*BacterialForagingAlg, error) {
 // Start ...
 func (a *BacterialForagingAlg) Start() (mat.Extremum, string) {
 	rand.Seed(time.Now().UnixNano())
-
-	a.BacteriaSwarm.init(a.Population, a.StepSize, *a.TFunc, *a.Space)
 
 	for {
 		a.BacteriaSwarm.hemotaxis(*a.TFunc, a.Mode)

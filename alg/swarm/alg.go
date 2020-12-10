@@ -29,6 +29,9 @@ func NewParticleSwarmAlg(opt *Options) (*ParticleSwarmAlg, error) {
 	rand.Seed(time.Now().UnixNano())
 
 	swarm := generateSwarm(opt.Swarmsize, opt.Space, opt.Mode)
+	if opt.EntryExtremum != nil {
+		swarm.globalExt = *opt.EntryExtremum
+	}
 	return &ParticleSwarmAlg{
 		IterationsLim: opt.IterationsLim,
 		TFunc:         &opt.TargetFunc,

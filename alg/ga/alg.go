@@ -31,6 +31,12 @@ func NewGeneticAlg(opt *Options) (*GeneticAlg, error) {
 
 	evol := newEvolution(opt.Population, opt.MutationRate, opt.MutationProbability)
 
+	if opt.EntryExtremum != nil {
+		evol.initOnExtremum(opt.TargetFunc, *opt.EntryExtremum, opt.EntryDistributionRatio)
+	} else {
+		evol.init(opt.TargetFunc, opt.Space)
+	}
+
 	return &GeneticAlg{
 		TFunc:               &opt.TargetFunc,
 		Space:               &opt.Space,
@@ -47,8 +53,6 @@ func NewGeneticAlg(opt *Options) (*GeneticAlg, error) {
 // Start ...
 func (a *GeneticAlg) Start() (mat.Extremum, string) {
 	rand.Seed(time.Now().UnixNano())
-
-	a.Evolution.init(*a.TFunc, *a.Space)
 
 	for {
 		selected := a.Evolution.selection(*a.TFunc, a.Mode)
